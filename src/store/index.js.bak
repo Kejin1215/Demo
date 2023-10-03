@@ -1,0 +1,32 @@
+// import { createStore } from "redux";
+import { createStore } from "./myredux";
+
+let initial = {
+  supNum: 10,
+  oppNum: 5,
+};
+
+/*
+第一次派发 state没有值  会把initial赋值给state
+第一次内部派发[目的是给state赋值初始值]
+*/
+const reducer = function reducer(state = initial, action) {
+  // action: 基于dispatch派发的时候 传递进来的行为对象要有type属性
+
+  // 克隆 state 避免直接修改 [钱克隆不包括嵌套obj]
+  state = { ...state };
+  switch (action.type) {
+    case "VOTE_SUP":
+      state.supNum++;
+      break;
+    case "VOTE_OPP":
+      state.oppNum++;
+      break;
+    default:
+  }
+
+  return state; // 替换公共状态
+};
+
+const store = createStore(reducer);
+export default store;

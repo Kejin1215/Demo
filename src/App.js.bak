@@ -1,0 +1,48 @@
+import { useContext, useEffect, useState } from "react";
+import "./App.css";
+import ThemeContext from "./ThemeContext";
+import { connect } from "react-redux";
+
+function App() {
+  let { store } = useContext(ThemeContext);
+  let { supNum, oppNum } = store.getState();
+
+  let [num, setNum] = useState(0);
+  const update = () => {
+    setNum(num + 1);
+  };
+
+  useEffect(() => {
+    // 组件工新的方法 放在公共容器事件池
+    let cancel = store.subscribe(update);
+    return () => {
+      cancel();
+    };
+  }, [num]);
+
+  return (
+    <div className="App">
+      <div>Support Number: {supNum}</div>
+      <button
+        onClick={() => {
+          store.dispatch({ type: "VOTE_SUP" });
+        }}
+      >
+        SUP
+      </button>
+      <div> Opposite Number: {oppNum}</div>
+      <button
+        onClick={() => {
+          store.dispatch({ type: "VOTE_OPP" });
+        }}
+      >
+        OPP
+      </button>
+    </div>
+  );
+}
+export default App;
+// export default connect((state) => {
+//   return { vote: state.vote };
+// })(App);
+// connect(mapStateToProps, mapDispatchToProps)(App);

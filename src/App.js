@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useDispatch, useSelector } from "react-redux";
+import "./App.css";
+import { support, opposite } from "./store/toolkit/VoteSlicer";
 function App() {
+  let { supNum, oppNum } = useSelector((store) => store.vote);
+  let dispatch = useDispatch();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>Support Number: {supNum}</div>
+      <button onClick={() => dispatch(support())}>SUP</button>
+      <div> Opposite Number: {oppNum}</div>
+      <button onClick={() => dispatch(opposite())}>OPP</button>
     </div>
   );
 }
-
 export default App;
+// export default connect(
+//   (state) => {
+//     return {
+//       vote: state.vote,
+//     };
+//   },
+//   (dispatch) => {
+//     return {
+//       support: () => dispatch(action.vote.support()),
+//       opposite: () => dispatch(action.vote.opposite()),
+//     };
+//   }
+// )(App);
